@@ -1,0 +1,7 @@
+name = "iSeqControl"
+uuid = "5b939232-ecb1-11e8-1da1-03f4c8ef061c"
+authors = ["Connor Hayward <connor.hayward@hotmail.co.uk>"]
+version = "0.1.0"
+
+[deps]
+Sockets = "6462fe0b-24de-5631-8697-dd941f90decc"
