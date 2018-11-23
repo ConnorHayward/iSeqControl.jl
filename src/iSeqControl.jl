@@ -146,7 +146,7 @@ function get_status(device::NHQ_Module, channel::Symbol)
         chn = get_channel(channel)
         return query(device, "S$chn")[4:end]
     catch err
-        #warn(err)
+        @warn err
         return "unknown"
     end
 end
@@ -212,11 +212,11 @@ function get_measured_voltage(device::NHQ_Module, channel::Symbol)
             m = match(reg_2, r)
             return parse(Int, m.match)
         else
-           # warn("unknown return (pattern) of device: $r")
+            @warn "unknown return (pattern) of device: $r"
         end
     catch err
         println(err)
-        #warn(err)
+        @warn err
         return;
     end
 end
@@ -238,7 +238,7 @@ function get_measured_current(device::NHQ_Module, channel::Symbol)
         return voltage*(10.0^exp)
     catch err
         println(err)
-       # warn(err)
+        @warn err
         return;
     end
 end
@@ -267,7 +267,7 @@ function get_target_voltage(device::NHQ_Module, channel::Symbol)
             error("unknown return (pattern) of device: $r")
         end
     catch err
-      #  warn(err)
+        @warn err
         return missing
     end
 end
@@ -342,7 +342,7 @@ function get_ramp_speed(device::NHQ_Module, channel::Symbol)
             error("unknown response (pattern): $r")
         end
     catch err
-      #  warn(err)
+        @warn err
         return missing
     end
 end
