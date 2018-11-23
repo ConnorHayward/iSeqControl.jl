@@ -288,7 +288,7 @@ function set_voltage(device::NHQ_Module, channel::Symbol, value::Real)
     else # old firmware version
         println("Old firmware")
         v = convert(Int, round(Int,value))
-        cmd = "D$chn=$(lpad(v, 4, 0))" # leading zeros, 4 digits
+        cmd = "D$chn=$(lpad(v, 4, "0"))" # leading zeros, 4 digits
         set(device, cmd)
     end
      sleep(0.05)
@@ -357,7 +357,7 @@ Sets the ramp speed from the module 'device' in units V/s.
 function set_ramp_speed(device::NHQ_Module, channel::Symbol, value::Int)
     if !( 2 <= value <= 255) error("value must be an integer in [2, 255]. It was $value") end
     chn = get_channel(channel)
-    cmd = "V$chn=$(lpad(value, 3, 0))" # leading zeros, 3 digits, not sure if needed but it works
+    cmd = "V$chn=$(lpad(value, 3, "0"))" # leading zeros, 3 digits, not sure if needed but it works
     set(device, cmd)
     nothing
 end
