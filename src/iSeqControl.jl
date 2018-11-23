@@ -283,7 +283,7 @@ function set_voltage(device::NHQ_Module, channel::Symbol, value::Real)
     chn = get_channel(channel)
     current_target_voltage = query(device, "D$chn")
     if occursin(".", current_target_voltage) # new firmware version
-        cmd = "D$chn=$(round(value, 1))"
+        cmd = "D$chn=$(round(Int,value))"
         set(device, cmd)
     else # old firmware version
         println("Old firmware")
