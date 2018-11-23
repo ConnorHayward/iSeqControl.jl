@@ -153,7 +153,7 @@ end
 function show_status(status::String)
     s="unknown"
     for (key, value) in STATUS_INFORMATION
-        contains(status, key) ? s=value : nothing
+        occursin(status, key) ? s=value : nothing
     end
     if s=="unknown"
         println("Unknown status reply: $status")
@@ -212,7 +212,7 @@ function get_measured_voltage(device::NHQ_Module, channel::Symbol)
             m = match(reg_2, r)
             return parse(Int, m.match)
         else
-            warn("unknown return (pattern) of device: $r")
+           # warn("unknown return (pattern) of device: $r")
         end
     catch err
         println(err)
@@ -238,7 +238,7 @@ function get_measured_current(device::NHQ_Module, channel::Symbol)
         return voltage*(10.0^exp)
     catch err
         println(err)
-        warn(err)
+       # warn(err)
         return null
     end
 end
@@ -267,7 +267,7 @@ function get_target_voltage(device::NHQ_Module, channel::Symbol)
             error("unknown return (pattern) of device: $r")
         end
     catch err
-        warn(err)
+      #  warn(err)
         return missing
     end
 end
@@ -282,7 +282,7 @@ Sets the target voltage from the module 'device' in units V.
 function set_voltage(device::NHQ_Module, channel::Symbol, value::Real)
     chn = get_channel(channel)
     current_target_voltage = query(device, "D$chn")
-    if contains(".", current_target_voltage) # new firmware version
+    if occursin(".", current_target_voltage) # new firmware version
         cmd = "D$chn=$(round(value, 1))"
         set(device, cmd)
     else # old firmware version
@@ -342,7 +342,7 @@ function get_ramp_speed(device::NHQ_Module, channel::Symbol)
             error("unknown response (pattern): $r")
         end
     catch err
-        warn(err)
+      #  warn(err)
         return missing
     end
 end
