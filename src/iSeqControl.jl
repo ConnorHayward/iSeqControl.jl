@@ -217,7 +217,7 @@ function get_measured_voltage(device::NHQ_Module, channel::Symbol)
     catch err
         println(err)
         #warn(err)
-        return null
+        return;
     end
 end
 export get_measured_voltage
@@ -239,7 +239,7 @@ function get_measured_current(device::NHQ_Module, channel::Symbol)
     catch err
         println(err)
        # warn(err)
-        return null
+        return;
     end
 end
 export get_measured_current
