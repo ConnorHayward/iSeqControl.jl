@@ -146,7 +146,7 @@ function get_status(device::NHQ_Module, channel::Symbol)
         chn = get_channel(channel)
         return query(device, "S$chn")[4:end]
     catch err
-        warn(err)
+        #warn(err)
         return "unknown"
     end
 end
@@ -216,7 +216,7 @@ function get_measured_voltage(device::NHQ_Module, channel::Symbol)
         end
     catch err
         println(err)
-        warn(err)
+        #warn(err)
         return null
     end
 end
