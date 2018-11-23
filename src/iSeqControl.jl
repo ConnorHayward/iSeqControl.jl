@@ -203,12 +203,12 @@ function get_measured_voltage(device::NHQ_Module, channel::Symbol)
         r = query(device, "U$chn")
         reg_1 = r"[0-9]+[+-]" # newer firmware version
         reg_2 = r"[+-]{0,1}[0-9]*" # newer firmware version
-        if ismatch(reg_1, r)
+        if occursin(reg_1, r)
             m = match(reg_1, r)
             voltage = parse(Float64, r[1:(m.offset+length(m.match)-2)])
             exp = parse(Int, r[(m.offset+length(m.match))-1:(end)])
             return voltage*(10.0^exp)
-        elseif ismatch(reg_2, r)
+        elseif occursin(reg_2, r)
             m = match(reg_2, r)
             return parse(Int, m.match)
         else
@@ -255,12 +255,12 @@ function get_target_voltage(device::NHQ_Module, channel::Symbol)
         r = query(device, "D$chn")
         reg_1 = r"[0-9]+[+-]" # newer firmware version
         reg_2 = r"[+-]{0,1}[0-9]*" # newer firmware version
-        if ismatch(reg_1, r)
+        if occursin(reg_1, r)
             m = match(reg_1, r)
             voltage = parse(Float64, r[1:(m.offset+length(m.match)-2)])
             exp = parse(Int, r[(m.offset+length(m.match))-1:(end)])
             return voltage*(10.0^exp)
-        elseif ismatch(reg_2, r)
+        elseif occursin(reg_2, r)
             m = match(reg_2, r)
             return parse(Int, m.match)
         else
