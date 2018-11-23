@@ -287,7 +287,7 @@ function set_voltage(device::NHQ_Module, channel::Symbol, value::Real)
         set(device, cmd)
     else # old firmware version
         println("Old firmware")
-        v = convert(Int, round(value, 0))
+        v = convert(Int, round(Int,value))
         cmd = "D$chn=$(lpad(v, 4, 0))" # leading zeros, 4 digits
         set(device, cmd)
     end
