@@ -1,5 +1,6 @@
 module iSeqControl
 using Sockets
+using Dates
 abstract type Device end
 
 struct NHQ_206L <: Device
