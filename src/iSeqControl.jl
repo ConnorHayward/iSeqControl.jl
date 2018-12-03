@@ -8,6 +8,17 @@ struct NHQ_206L <: Device
     ip::String
     port::Int
 
+    """
+        NHQ_206L(name::String, ip::String, port::Int)
+
+        Create NHQ_206L for use with control functions.
+
+            # Arguements
+            - `name::String`: Internal reference name for module.
+            - `ip::String`: Net address for module.
+            - `port::Int`: Port address on given net address.
+    """
+
     function NHQ_206L(name::String, ip::String, port::Int)
         device = new(name, ip, port)
         return device
@@ -27,6 +38,17 @@ struct NHQ_226L <: Device
     ip::String
     port::Int
 
+    """
+        NHQ_226L(name::String, ip::String, port::Int)
+
+        Create NHQ_226L for use with control functions.
+
+            # Arguements
+            - `name::String`: Internal reference name for module.
+            - `ip::String`: Net address for module.
+            - `port::Int`: Port address on given net address.
+    """
+
     function NHQ_226L(name::String, ip::String, port::Int)
         device = new(name, ip, port)
         return device
@@ -42,6 +64,12 @@ const NHQ_Module = Union{NHQ_206L, NHQ_226L}
 
 export NHQ_226L
 
+"""
+    query(device, cmd,timeout=1.0)
+
+    Send cmd to device, fetch and return response.
+
+"""
 CRLF = "\r\n"
 function query(device::NHQ_Module, cmd::String; timeout=1.0)::String
     c = -1
@@ -85,6 +113,13 @@ function query(device::NHQ_Module, cmd::String; timeout=1.0)::String
     end
 end
 
+"""
+    set(device, cmd)
+
+    Send cmd to device, does not await a response. Clears buffer of any response generated.
+
+"""
+
 function set(device::NHQ_Module, cmd::String)
     c = -1
     while c == -1
@@ -110,10 +145,26 @@ function set(device::NHQ_Module, cmd::String)
     nothing
 end
 
+"""
+    get_device_information(device, timeout=7.0)
+
+    Query device with the "#" cmd, returns array of response.
+
+    See also: show_device_information
+
+"""
+
 function get_device_information(device::NHQ_Module; timeout=7.)::Array{SubString}
     return split(query(device, "#"),";")
 end
 export show_device_information
+
+"""
+    show_device_information(device)
+
+    Prints device information to output.
+
+"""
 function show_device_information(device::NHQ_Module)
     di = get_device_information(device)
     println("Serial number: $(di[1])")
@@ -137,10 +188,10 @@ function get_channel(channel::Symbol)
 end
 
 """
-# get_status(device::NHQ_Module)
+    get_status(device::NHQ_Module)
 
-Reads out the status from the module device.
-'channel' can be ':A' or ':B' (channel 1 or 2).
+    Reads out the status from the module device.
+    'channel' can be ':A' or ':B' (channel 1 or 2).
 """
 function get_status(device::NHQ_Module, channel::Symbol)
     try
@@ -151,6 +202,12 @@ function get_status(device::NHQ_Module, channel::Symbol)
         return "unknown"
     end
 end
+
+"""
+    show_status(status)
+
+    Looks up status string in STATUS_INFORMATION Dict, returns human readable response.
+"""
 function show_status(status::String)
     s="unknown"
     for (key, value) in STATUS_INFORMATION
@@ -163,6 +220,12 @@ function show_status(status::String)
     end
     nothing
 end
+
+"""
+    show_status(device, channel)
+
+    Query device with status command, looks up response and displays to console.
+"""
 function show_status(device::NHQ_Module, channel::Symbol)
     status = get_status(device, channel)
     show_status(status)
